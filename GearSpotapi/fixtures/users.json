@@ -1,62 +1,82 @@
 [
     {
-      "model": "GearSpot_api.user",
+      "model": "auth.user",
       "pk": 1,
       "fields": {
         "username": "johnsmith",
         "email": "john.smith@example.com",
-        "password_hash": "bcrypt$d8a9e874e$2b$10$3Jk9F9Zj7XmjvDkL8iNm5O",
-        "profile_image": "profiles/john.jpg",
-        "bio": "Guitarist and vintage tube amp collector. Love the warm tones of analog gear.",
-        "created_at": "2024-11-10T12:00:00Z"
+        "password": "pbkdf2_sha256$260000$d8a9e874e3Jk9F9Zj7XmjvDkL8iNm5O=$x+Y3xFIH8R6QF9UUyLOZ3JGT9eVZbGaZYTMb4tKZ0zk=",
+        "first_name": "John",
+        "last_name": "Smith",
+        "is_staff": false,
+        "is_active": true,
+        "is_superuser": false,
+        "date_joined": "2024-11-10T12:00:00Z",
+        "last_login": "2024-11-10T12:00:00Z"
       }
     },
     {
-      "model": "GearSpot_api.user",
+      "model": "auth.user",
       "pk": 2,
       "fields": {
         "username": "emilyjones",
         "email": "emily.jones@example.com",
-        "password_hash": "bcrypt$6f8e7d5c4$2b$10$9Fu8Gt7Hj6KlM3nB2oP1dO",
-        "profile_image": "profiles/emily.jpg",
-        "bio": "Electronic music producer specializing in synth programming and sound design.",
-        "created_at": "2024-11-12T14:30:00Z"
+        "password": "pbkdf2_sha256$260000$9Fu8Gt7Hj6KlM3nB2oP1dO=$x+Y3xFIH8R6QF9UUyLOZ3JGT9eVZbGaZYTMb4tKZ0zk=",
+        "first_name": "Emily",
+        "last_name": "Jones",
+        "is_staff": false,
+        "is_active": true,
+        "is_superuser": false,
+        "date_joined": "2024-11-12T14:30:00Z",
+        "last_login": "2024-11-12T14:30:00Z"
       }
     },
     {
-      "model": "GearSpot_api.user",
+      "model": "auth.user",
       "pk": 3,
       "fields": {
         "username": "michaelbrown",
         "email": "michael.brown@example.com",
-        "password_hash": "bcrypt$5c4d3b2a1$2b$10$7Bd6Tp9Qi8RoN5xK3zL8hO",
-        "profile_image": "profiles/michael.jpg",
-        "bio": "Studio engineer and microphone enthusiast. Always hunting for the perfect vocal chain.",
-        "created_at": "2024-11-15T09:45:00Z"
+        "password": "pbkdf2_sha256$260000$7Bd6Tp9Qi8RoN5xK3zL8hO=$x+Y3xFIH8R6QF9UUyLOZ3JGT9eVZbGaZYTMb4tKZ0zk=",
+        "first_name": "Michael",
+        "last_name": "Brown",
+        "is_staff": false,
+        "is_active": true,
+        "is_superuser": false,
+        "date_joined": "2024-11-15T09:45:00Z",
+        "last_login": "2024-11-15T09:45:00Z"
       }
     },
     {
-      "model": "GearSpot_api.user",
+      "model": "auth.user",
       "pk": 4,
       "fields": {
         "username": "sophiawilliams",
         "email": "sophia.williams@example.com",
-        "password_hash": "bcrypt$9e8d7c6b5$2b$10$2Ku7Jh9Df6TpR8Vx1zN3lO",
-        "profile_image": "profiles/sophia.jpg",
-        "bio": "Session drummer with a passion for vintage kits and boutique cymbals.",
-        "created_at": "2024-11-18T16:20:00Z"
+        "password": "pbkdf2_sha256$260000$2Ku7Jh9Df6TpR8Vx1zN3lO=$x+Y3xFIH8R6QF9UUyLOZ3JGT9eVZbGaZYTMb4tKZ0zk=",
+        "first_name": "Sophia",
+        "last_name": "Williams",
+        "is_staff": false,
+        "is_active": true,
+        "is_superuser": false,
+        "date_joined": "2024-11-18T16:20:00Z",
+        "last_login": "2024-11-18T16:20:00Z"
       }
     },
     {
-      "model": "GearSpot_api.user",
+      "model": "auth.user",
       "pk": 5,
       "fields": {
         "username": "davidmiller",
         "email": "david.miller@example.com",
-        "password_hash": "bcrypt$1a2b3c4d5$2b$10$8Cm5Nq7Kt3Rp6Bj9Lo1xzO",
-        "profile_image": "profiles/david.jpg",
-        "bio": "Audio software developer and modular synth builder. Love creating new sounds.",
-        "created_at": "2024-11-20T11:10:00Z"
+        "password": "pbkdf2_sha256$260000$8Cm5Nq7Kt3Rp6Bj9Lo1xzO=$x+Y3xFIH8R6QF9UUyLOZ3JGT9eVZbGaZYTMb4tKZ0zk=",
+        "first_name": "David",
+        "last_name": "Miller",
+        "is_staff": false,
+        "is_active": true,
+        "is_superuser": false,
+        "date_joined": "2024-11-20T11:10:00Z",
+        "last_login": "2024-11-20T11:10:00Z"
       }
     }
   ]

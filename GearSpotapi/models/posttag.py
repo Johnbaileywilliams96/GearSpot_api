@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from .post import Post
-from .user import User
+from django.contrib.auth.models import User
 from .tag import Tag
 
 class PostTag(models.Model):

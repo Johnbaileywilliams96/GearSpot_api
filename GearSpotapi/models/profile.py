@@ -1,12 +1,10 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
-
-class User(models.Model):
-    username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
-    password_hash = models.CharField(max_length=255)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     profile_image = models.ImageField(
         upload_to="products",
         height_field=None,
@@ -16,4 +14,3 @@ class User(models.Model):
     )
     bio = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
-

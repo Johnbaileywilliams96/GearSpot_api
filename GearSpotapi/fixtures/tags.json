@@ -1,55 +1,55 @@
 [
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 1,
       "fields": {
         "name": "guitar"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 2,
       "fields": {
         "name": "amplifier"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 3,
       "fields": {
         "name": "synthesizer"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 4,
       "fields": {
         "name": "microphone"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 5,
       "fields": {
         "name": "drums"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 6,
       "fields": {
         "name": "modular"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 7,
       "fields": {
         "name": "diy"
       }
     },
     {
-      "model": "GearSpot_api.tag",
+      "model": "GearSpotapi.tag",
       "pk": 8,
       "fields": {
         "name": "vintage"

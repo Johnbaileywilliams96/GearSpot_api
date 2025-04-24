@@ -1,72 +1,72 @@
 [
     {
-      "model": "GearSpot_api.post",
+      "model": "GearSpotapi.post",
       "pk": 1,
       "fields": {
         "user": 1,
         "title": "My 1968 Fender Deluxe Reverb Restoration",
         "description": "Just finished restoring this vintage Fender Deluxe Reverb. Original transformers, new capacitors, and bias adjustment.",
-        "image_url": "posts/fender_deluxe.jpg",
+        "image_path": "posts/fender_deluxe.jpg",
         "created_at": "2024-11-15T07:30:00Z",
         "updated_at": "2024-11-15T07:30:00Z"
       }
     },
     {
-      "model": "GearSpot_api.post",
+      "model": "GearSpotapi.post",
       "pk": 2,
       "fields": {
         "user": 2,
         "title": "Moog Grandmother: First Impressions",
         "description": "Just unboxed my new Moog Grandmother semi-modular synth. Here are my thoughts after the first jam session.",
-        "image_url": "posts/moog_grandmother.jpg",
+        "image_path": "posts/moog_grandmother.jpg",
         "created_at": "2024-11-16T14:20:00Z",
         "updated_at": "2024-11-16T14:20:00Z"
       }
     },
     {
-      "model": "GearSpot_api.post",
+      "model": "GearSpotapi.post",
       "pk": 3,
       "fields": {
         "user": 3,
         "title": "Neumann U87 vs. TLM 103: Shootout",
         "description": "Comparing these two legendary Neumann microphones on various vocal and instrument sources.",
-        "image_url": "posts/neumann_mics.jpg",
+        "image_path": "posts/neumann_mics.jpg",
         "created_at": "2024-11-18T09:45:00Z",
         "updated_at": "2024-11-18T09:45:00Z"
       }
     },
     {
-      "model": "GearSpot_api.post",
+      "model": "GearSpotapi.post",
       "pk": 4,
       "fields": {
         "user": 4,
         "title": "Custom Maple Drum Kit Build",
         "description": "Documenting my journey building a custom maple drum kit with brass hardware.",
-        "image_url": "posts/custom_drums.jpg",
+        "image_path": "posts/custom_drums.jpg",
         "created_at": "2024-11-20T12:15:00Z",
         "updated_at": "2024-11-20T12:15:00Z"
       }
     },
     {
-      "model": "GearSpot_api.post",
+      "model": "GearSpotapi.post",
       "pk": 5,
       "fields": {
         "user": 5,
         "title": "Building a DIY Eurorack Module",
         "description": "Step-by-step guide to building my first Eurorack modular synthesizer module.",
-        "image_url": "posts/eurorack_module.jpg",
+        "image_path": "posts/eurorack_module.jpg",
         "created_at": "2024-11-22T16:40:00Z",
         "updated_at": "2024-11-22T16:40:00Z"
       }
     },
     {
-      "model": "GearSpot_api.post",
+      "model": "GearSpotapi.post",
       "pk": 6,
       "fields": {
         "user": 1,
         "title": "PRS Silver Sky vs Fender Stratocaster Comparison",
         "description": "In-depth comparison between the John Mayer signature PRS Silver Sky and my vintage Stratocaster.",
-        "image_url": "posts/guitar_comparison.jpg",
+        "image_path": "posts/guitar_comparison.jpg",
         "created_at": "2024-11-25T08:50:00Z",
         "updated_at": "2024-11-25T08:50:00Z"
       }

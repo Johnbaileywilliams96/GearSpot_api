@@ -1,6 +1,6 @@
 [
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 1,
       "fields": {
         "post": 1,
@@ -9,7 +9,7 @@
       }
     },
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 2,
       "fields": {
         "post": 1,
@@ -18,7 +18,7 @@
       }
     },
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 3,
       "fields": {
         "post": 1,
@@ -27,7 +27,7 @@
       }
     },
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 4,
       "fields": {
         "post": 2,
@@ -36,7 +36,7 @@
       }
     },
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 5,
       "fields": {
         "post": 2,
@@ -45,7 +45,7 @@
       }
     },
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 6,
       "fields": {
         "post": 3,
@@ -54,7 +54,7 @@
       }
     },
     {
-      "model": "GearSpot_api.like",
+      "model": "GearSpotapi.like",
       "pk": 7,
       "fields": {
         "post": 4,

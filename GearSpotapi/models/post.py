@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils import timezone
-from .user import User
+from django.contrib.auth.models import User
 
 class Post(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     image_path = models.ImageField(
         upload_to="products",
