@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.utils import timezone
+from .user import User
 
 class Post(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
@@ -15,4 +16,3 @@ class Post(models.Model):
         null=True,
     )
 
-    
