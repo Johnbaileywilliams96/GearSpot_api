@@ -2,6 +2,7 @@ from django.http import HttpResponseServerError
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from rest_framework.permissions import AllowAny
 from GearSpotapi.models import Post
 from GearSpotapi.models import User
 
@@ -19,11 +20,13 @@ class PostSerializer(serializers.ModelSerializer):
             "updated_at",
             "image_path"
         )
-      
+        depth = 1
 
 
 
 class PostView(ViewSet):
+
+    permission_classes = [AllowAny]
 
     def list(self, request):
 

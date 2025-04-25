@@ -3,6 +3,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
 
 
@@ -26,7 +27,7 @@ class UserView(ViewSet):
     Purpose: Allow a user to communicate with the Bangazon database to GET PUT POST and DELETE Users.
     Methods: GET PUT(id) POST
 """
-
+    permission_classes = [AllowAny]
 
     def retrieve(self, request, pk=None):
         """Handle GET requests for single customer
