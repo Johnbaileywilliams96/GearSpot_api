@@ -3,3 +3,4 @@ from .register import login_user
 from .post import PostView
 from .user import UserView
 from .comment import CommentView
+from .profile import ProfileView

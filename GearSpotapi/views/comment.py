@@ -21,7 +21,7 @@ class CommentSerializer(serializers.ModelSerializer):
             "updated_at"
         )
 
-        depth = 1
+        # depth = 1
 
 
 
@@ -46,4 +46,13 @@ class CommentView(ViewSet):
         )
         return Response(serializer.data)
 
+    def create(self, request):
 
+        new_comment = Comment()
+        new_comment.content = request.data["content"]
+        new_comment.content = request.auth.user
+
+        new_comment.save()
+
+        serialized = CommentSerializer(new_comment, many=False)
+        return Response(serialized.data, status=status.HTTP_201_CREATED)
