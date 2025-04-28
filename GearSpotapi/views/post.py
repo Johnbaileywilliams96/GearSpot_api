@@ -2,15 +2,23 @@ from django.http import HttpResponseServerError
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from rest_framework import serializers
 from django.core.files.base import ContentFile
 import uuid
 import base64
 from rest_framework.permissions import AllowAny
 from GearSpotapi.models import Post
 from GearSpotapi.models import User
+from GearSpotapi.models import Comment
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'user', 'post', 'content', 'created_at')
+        depth = 1
 
 class PostSerializer(serializers.ModelSerializer):
-
+    post_comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -21,9 +29,15 @@ class PostSerializer(serializers.ModelSerializer):
             "description",
             "created_at",
             "updated_at",
-            "image_path"
+            "image_path",
+            "post_comments"
         )
         depth = 1
+    
+    def get_post_comments(self, obj):
+        # Assuming your Comment model has a ForeignKey to Post called 'post'
+        comments = Comment.objects.filter(post=obj)
+        return CommentSerializer(comments, many=True).data
 
 
 
