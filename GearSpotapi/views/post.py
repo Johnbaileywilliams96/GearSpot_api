@@ -2,6 +2,9 @@ from django.http import HttpResponseServerError
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from django.core.files.base import ContentFile
+import uuid
+import base64
 from rest_framework.permissions import AllowAny
 from GearSpotapi.models import Post
 from GearSpotapi.models import User
@@ -51,7 +54,15 @@ class PostView(ViewSet):
         new_post.title = request.data["title"]
         new_post.user = request.auth.user
         new_post.description = request.data["description"]
-        new_post.image_path = request.data["image_path"]
+        if "image_path" in request.data:
+            format, imgstr = request.data["image_path"].split(";base64,")
+            ext = format.split("/")[-1]
+            data = ContentFile(
+                base64.b64decode(imgstr),
+                name=f'{new_post.id}-{request.data["name"]}-{uuid.uuid4()}.{ext}',
+            )
+
+            new_post.image_path = data
      
 
         new_post.save()

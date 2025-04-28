@@ -12,6 +12,7 @@ router.register(r'posts', PostView, 'post'),
 router.register(r"users", UserView, "user"),
 router.register(r"comments", CommentView, "comment")
 router.register(r"profiles", ProfileView, "profile")
+router.register(r"tags", TagView, "tag")
 
 urlpatterns = [
     path("", include(router.urls)),
