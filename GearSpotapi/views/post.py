@@ -90,25 +90,52 @@ class PostView(ViewSet):
         return Response(serializer.data)
     
     def create(self, request):
-       
-
+        # Create the post
         new_post = Post()
         new_post.title = request.data["title"]
         new_post.user = request.auth.user
         new_post.description = request.data["description"]
-        if "image_path" in request.data:
-            format, imgstr = request.data["image_path"].split(";base64,")
-            ext = format.split("/")[-1]
-            data = ContentFile(
-                base64.b64decode(imgstr),
-                name=f'{new_post.id}-{request.data["name"]}-{uuid.uuid4()}.{ext}',
-            )
-
-            new_post.image_path = data
-     
-
+        
+        # Save the post first to get an ID
         new_post.save()
-
+        
+        # Now handle the image after we have an ID
+        if "image_path" in request.data:
+            try:
+                format, imgstr = request.data["image_path"].split(";base64,")
+                ext = format.split("/")[-1]
+                data = ContentFile(
+                    base64.b64decode(imgstr),
+                    name=f'post_{new_post.id}_{uuid.uuid4()}.{ext}',  # Use post ID but don't rely on request.data["name"]
+                )
+                new_post.image_path = data
+                new_post.save()  # Save again with the image
+            except Exception as e:
+                # Log the error but don't crash
+                print(f"Error processing image: {e}")
+        
+        # Handle tags
+        try:
+            if "tags" in request.data and request.data["tags"]:
+                # Ensure it's a list
+                tag_ids = request.data["tags"]
+                if not isinstance(tag_ids, list):
+                    # Try to convert it if it's not a list
+                    try:
+                        tag_ids = list(tag_ids)
+                    except:
+                        tag_ids = [tag_ids]
+                
+                for tag_id in tag_ids:
+                    post_tag = PostTag()
+                    post_tag.post = new_post
+                    post_tag.tag_id = tag_id
+                    post_tag.save()
+        except Exception as e:
+            # Log the error but don't crash
+            print(f"Error processing tags: {e}")
+        
+        # Return the serialized post
         serialized = PostSerializer(new_post, many=False)
         return Response(serialized.data, status=status.HTTP_201_CREATED)
 
