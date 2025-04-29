@@ -10,6 +10,24 @@ from rest_framework.permissions import AllowAny
 from GearSpotapi.models import Post
 from GearSpotapi.models import User
 from GearSpotapi.models import Comment
+from GearSpotapi.models import PostTag
+from GearSpotapi.models import Like
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = (
+            "post",
+            "user",
+            "created_at")
+        depth = 1
+
+class PostTagsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostTag
+        fields = ('post', 'tag')
+        depth = 1
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +37,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     post_comments = serializers.SerializerMethodField()
+    post_tags = serializers.SerializerMethodField()
+    post_likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -30,15 +50,23 @@ class PostSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "image_path",
-            "post_comments"
+            "post_comments", 
+            "post_tags",
+            "post_likes"
         )
         depth = 1
     
     def get_post_comments(self, obj):
-        # Assuming your Comment model has a ForeignKey to Post called 'post'
         comments = Comment.objects.filter(post=obj)
         return CommentSerializer(comments, many=True).data
 
+    def get_post_tags(self, obj):
+        post_tags = PostTag.objects.filter(post=obj)
+        return PostTagsSerializer(post_tags, many=True).data
+
+    def get_post_likes(self, obj):
+        likes = Like.objects.filter(post=obj)
+        return LikeSerializer(likes, many=True).data
 
 
 class PostView(ViewSet):

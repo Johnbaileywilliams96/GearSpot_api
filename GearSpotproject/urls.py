@@ -13,6 +13,7 @@ router.register(r"users", UserView, "user"),
 router.register(r"comments", CommentView, "comment")
 router.register(r"profiles", ProfileView, "profile")
 router.register(r"tags", TagView, "tag")
+router.register(r"likes", LikeView, "like")
 
 urlpatterns = [
     path("", include(router.urls)),

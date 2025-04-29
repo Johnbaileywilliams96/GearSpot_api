@@ -15,6 +15,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "bio",
             "created_at"
         )
+        depth = 1
 
 
 class ProfileView(ViewSet):
@@ -24,5 +25,12 @@ class ProfileView(ViewSet):
 
         serializer = ProfileSerializer(
             profiles, many=True, context={"request": request}
+        )
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        profile = Profile.objects.get(pk=pk)
+        serializer = ProfileSerializer(
+            profile, many=False, context={"request": request}
         )
         return Response(serializer.data)

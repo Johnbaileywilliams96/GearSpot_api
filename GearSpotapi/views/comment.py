@@ -21,9 +21,6 @@ class CommentSerializer(serializers.ModelSerializer):
             "updated_at"
         )
 
-        # depth = 1
-
-
 
 
 class CommentView(ViewSet):
