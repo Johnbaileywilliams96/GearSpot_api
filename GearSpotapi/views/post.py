@@ -139,4 +139,28 @@ class PostView(ViewSet):
         serialized = PostSerializer(new_post, many=False)
         return Response(serialized.data, status=status.HTTP_201_CREATED)
 
+
+    def destroy(self, request, pk=None):
+        """Handle DELETE requests for a review
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+        try:
+            post = Post.objects.get(pk=pk)
+
+            # Check if the authenticated user is the owner of the review
+            if post.user.id != request.auth.user.id:
+                return Response(
+                    {"message": "You cannot delete a review that is not yours"},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            post.delete()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except Post.DoesNotExist:
+            return Response(
+                {"message": "Review not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
     
