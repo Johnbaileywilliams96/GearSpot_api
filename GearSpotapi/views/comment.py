@@ -44,12 +44,33 @@ class CommentView(ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-
-        new_comment = Comment()
-        new_comment.content = request.data["content"]
-        new_comment.content = request.auth.user
-
-        new_comment.save()
-
-        serialized = CommentSerializer(new_comment, many=False)
-        return Response(serialized.data, status=status.HTTP_201_CREATED)
+        try:
+            # Get the post if it's in the request data
+            if "post" not in request.data:
+                return Response(
+                    {"message": "Post ID is required"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            post = Post.objects.get(pk=request.data["post"])
+            
+            new_comment = Comment()
+            new_comment.content = request.data["content"]
+            new_comment.user = request.auth.user  # Set user (not content)
+            new_comment.post = post  # Set the post relationship
+            
+            new_comment.save()
+            
+            serialized = CommentSerializer(new_comment, many=False)
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        
+        except Post.DoesNotExist:
+            return Response(
+                {"message": "Post not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as ex:
+            return Response(
+                {"message": str(ex)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
