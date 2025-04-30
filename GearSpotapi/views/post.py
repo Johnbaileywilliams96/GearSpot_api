@@ -163,4 +163,61 @@ class PostView(ViewSet):
                 {"message": "Review not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
+    def update(self, request, pk=None):
+        try:
+
+            post = Post.objects.get(pk=pk)
+
+            # Is the authenticated user allowed to edit this post?
+            if post.user.id != request.auth.user.id:
+                return Response(
+                        {"message": "You cannot update a post that is not yours"},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+                
+            post.title = request.data.get("title", post.title)
+            post.description = request.data.get("description", post.description)
+
+
+            if "image_path" in request.data and request.data["image_path"] and ';base64,' in request.data["image_path"]:
+                try:
+                    format, imgstr = request.data["image_path"].split(";base64,")
+                    ext = format.split("/")[-1]
+                    data = ContentFile(
+                        base64.b64decode(imgstr),
+                        name=f'post_{post.id}_{uuid.uuid4()}.{ext}',
+                    )
+                    post.image_path = data
+                except Exception as e:
+                    print(f"Error processing image: {e}")
+        
+            # Save the post with updated fields
+            post.save()
+
+            if "tags" in request.data:
+                PostTag.objects.filter(post=post).delete()
+
+                if request.data["tags"]:
+                    tag_ids = request.data["tags"]
+                    if not isinstance(tag_ids, list):
+                        try:
+                            tag_ids = list(tag_ids)
+                        except:
+                            tag_ids = [tag_ids]
+                    
+                    for tag_id in tag_ids:
+                        post_tag = PostTag()
+                        post_tag.post = post
+                        post_tag.tag_id = tag_id
+                        post_tag.save()
+
+
+                serialized = PostSerializer(post,  many=False)
+                return Response(serialized.data, status=status.HTTP_200_OK)
+            
+        except Post.DoesNotExist:
+            return Response(
+                    {"message": "Post not found"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
     
