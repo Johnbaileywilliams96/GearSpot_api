@@ -39,6 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
     post_comments = serializers.SerializerMethodField()
     post_tags = serializers.SerializerMethodField()
     post_likes = serializers.SerializerMethodField()
+    is_Owner = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -52,7 +53,8 @@ class PostSerializer(serializers.ModelSerializer):
             "image_path",
             "post_comments", 
             "post_tags",
-            "post_likes"
+            "post_likes",
+            "is_Owner"
         )
         depth = 1
     
@@ -67,6 +69,12 @@ class PostSerializer(serializers.ModelSerializer):
     def get_post_likes(self, obj):
         likes = Like.objects.filter(post=obj)
         return LikeSerializer(likes, many=True).data
+    
+    def get_is_Owner(self, obj):
+        request = self.context.get("request")
+        if request:
+            return obj.is_Owner(request)
+        return False
 
 
 class PostView(ViewSet):
@@ -106,7 +114,7 @@ class PostView(ViewSet):
                 ext = format.split("/")[-1]
                 data = ContentFile(
                     base64.b64decode(imgstr),
-                    name=f'post_{new_post.id}_{uuid.uuid4()}.{ext}',  # Use post ID but don't rely on request.data["name"]
+                    name=f'post_{new_post.id}_{uuid.uuid4()}.{ext}', 
                 )
                 new_post.image_path = data
                 new_post.save()  # Save again with the image
@@ -135,7 +143,7 @@ class PostView(ViewSet):
             # Log the error but don't crash
             print(f"Error processing tags: {e}")
         
-        # Return the serialized post
+      
         serialized = PostSerializer(new_post, many=False)
         return Response(serialized.data, status=status.HTTP_201_CREATED)
 
@@ -149,7 +157,7 @@ class PostView(ViewSet):
         try:
             post = Post.objects.get(pk=pk)
 
-            # Check if the authenticated user is the owner of the review
+         
             if post.user.id != request.auth.user.id:
                 return Response(
                     {"message": "You cannot delete a review that is not yours"},
@@ -168,7 +176,7 @@ class PostView(ViewSet):
 
             post = Post.objects.get(pk=pk)
 
-            # Is the authenticated user allowed to edit this post?
+           
             if post.user.id != request.auth.user.id:
                 return Response(
                         {"message": "You cannot update a post that is not yours"},
@@ -191,7 +199,7 @@ class PostView(ViewSet):
                 except Exception as e:
                     print(f"Error processing image: {e}")
         
-            # Save the post with updated fields
+    
             post.save()
 
             if "tags" in request.data:

@@ -16,3 +16,10 @@ class Post(models.Model):
         null=True,
     )
 
+    def is_Owner(self, request):
+        # Check if the request has an authenticated user
+        if not hasattr(request, 'auth') or not request.auth:
+            return False
+            
+        # If request.auth exists, compare the authenticated user with the post's user
+        return self.user.id == request.auth.user.id
