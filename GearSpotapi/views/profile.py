@@ -7,6 +7,7 @@ from django.core.files.base import ContentFile
 import uuid
 import base64
 from GearSpotapi.models import Profile
+from rest_framework.decorators import action 
 # from GearSpotapi.models import User
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -63,3 +64,22 @@ class ProfileView(ViewSet):
 
         serialized = ProfileSerializer(new_profile, many=False)
         return Response(serialized.data, status=status.HTTP_201_CREATED)
+
+    @action(methods=["get"], detail=False)
+    def current_user_profile(self, request):
+        """Get the profile of the currently logged-in user"""
+        try:
+            current_profile = Profile.objects.get(user=request.auth.user)
+            serializer = ProfileSerializer(
+                current_profile, many=False, context={"request": request}
+            )
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Profile.DoesNotExist:
+            return Response(
+                {"message": "Profile not found for current user"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+           
+
+  

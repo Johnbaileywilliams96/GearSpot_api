@@ -15,6 +15,7 @@ router.register(r"profiles", ProfileView, "profile")
 router.register(r"tags", TagView, "tag")
 router.register(r"posttags", PostTagView, "posttag")
 router.register(r"likes", LikeView, "like")
+router.register(r"current_user_profile", ProfileView, "current")
 
 urlpatterns = [
     path("", include(router.urls)),
