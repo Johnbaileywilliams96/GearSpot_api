@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from GearSpotapi.models import Profile
 
 
 @api_view(['POST'])
@@ -65,6 +66,11 @@ def register_user(request):
                 first_name=request.data['first_name'],
                 last_name=request.data['last_name']
             )
+            new_profile = Profile()
+            new_profile.user= new_user
+            new_profile.bio = ""
+            new_profile.save()
+
         except IntegrityError:
             return Response(
                 {'message': 'An account with that username already exists'},

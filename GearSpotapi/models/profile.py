@@ -14,3 +14,5 @@ class Profile(models.Model):
     )
     bio = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
+
+
