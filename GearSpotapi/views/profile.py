@@ -7,7 +7,12 @@ from django.core.files.base import ContentFile
 import uuid
 import base64
 from GearSpotapi.models import Profile
-from rest_framework.decorators import action 
+from rest_framework.decorators import action
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
+
 # from GearSpotapi.models import User
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -22,9 +27,13 @@ class ProfileSerializer(serializers.ModelSerializer):
         )
         depth = 1
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(ViewSet):
+
+
     permission_classes = [AllowAny]
+    
+
     def list(self, request):
         profiles = Profile.objects.all()
 
@@ -80,6 +89,48 @@ class ProfileView(ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-           
+    @method_decorator(csrf_exempt)
+    @action(methods=["put"], detail=False)
+    def update_current_user_profile(self, request):
+        """Update the profile of the currently logged-in user"""
+        try:
+            # Get the current user's profile
+            current_profile = Profile.objects.get(user=request.auth.user)
+            
+            # Update the bio if provided
+            if "bio" in request.data:
+                current_profile.bio = request.data["bio"]
+            
+            # Handle profile image update if provided
+            if "profile_image" in request.data and request.data["profile_image"] and ';base64,' in request.data["profile_image"]:
+                try:
+                    format, imgstr = request.data["profile_image"].split(";base64,")
+                    ext = format.split("/")[-1]
+                    data = ContentFile(
+                        base64.b64decode(imgstr),
+                        name=f'profile_{current_profile.id}_{uuid.uuid4()}.{ext}', 
+                    )
+                    # Remove old image if exists
+                    if current_profile.profile_image:
+                        current_profile.profile_image.delete(save=False)
+                    
+                    current_profile.profile_image = data
+                except Exception as e:
+                    # Log the error but don't crash
+                    print(f"Error processing profile image: {e}")
+            
+            # Save the updated profile
+            current_profile.save()
+            
+            # Return the updated profile
+            serializer = ProfileSerializer(
+                current_profile, many=False, context={"request": request}
+            )
+            return Response(serializer.data, status=status.HTTP_200_OK)
+            
+        except Profile.DoesNotExist:
+            return Response(
+                {"message": "Profile not found for current user"}, 
+                status=status.HTTP_404_NOT_FOUND)
 
   
