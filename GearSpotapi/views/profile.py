@@ -6,16 +6,23 @@ from rest_framework.permissions import AllowAny
 from django.core.files.base import ContentFile
 import uuid
 import base64
-from GearSpotapi.models import Profile
+from GearSpotapi.models import Profile, Post
 from rest_framework.decorators import action
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
+
+class ProfilePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'created_at', 'image_path')
 
 
 
 # from GearSpotapi.models import User
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user_posts = serializers.SerializerMethodField()
     class Meta:
         model = Profile
         fields = (
@@ -23,9 +30,17 @@ class ProfileSerializer(serializers.ModelSerializer):
             "user",
             "profile_image",
             "bio",
-            "created_at"
+            "created_at",
+            "user_posts"
         )
         depth = 1
+
+    def get_user_posts(self, obj):
+        # Get all posts created by this user
+        posts = Post.objects.filter(user=obj.user).order_by('-created_at')
+        # You can limit the number of posts returned if needed
+        # posts = posts[:10]  # Only return the 10 most recent posts
+        return ProfilePostSerializer(posts, many=True, context=self.context).data
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(ViewSet):

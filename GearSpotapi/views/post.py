@@ -76,7 +76,7 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.is_Owner(request)
         return False
 
-
+  
 class PostView(ViewSet):
 
     permission_classes = [AllowAny]
