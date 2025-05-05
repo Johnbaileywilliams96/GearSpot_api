@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 from django.core.files.base import ContentFile
 import uuid
 import base64
-from GearSpotapi.models import Profile, Post
+from GearSpotapi.models import Profile, Post, Like
 from rest_framework.decorators import action
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -17,12 +17,20 @@ class ProfilePostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'title', 'description', 'created_at', 'image_path')
 
+class ProfileLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ("post", )
+
+        depth = 1
 
 
 # from GearSpotapi.models import User
 
 class ProfileSerializer(serializers.ModelSerializer):
     user_posts = serializers.SerializerMethodField()
+    user_likes = serializers.SerializerMethodField()
+
     class Meta:
         model = Profile
         fields = (
@@ -31,7 +39,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             "profile_image",
             "bio",
             "created_at",
-            "user_posts"
+            "user_posts",
+            "user_likes"
         )
         depth = 1
 
@@ -41,6 +50,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         # You can limit the number of posts returned if needed
         # posts = posts[:10]  # Only return the 10 most recent posts
         return ProfilePostSerializer(posts, many=True, context=self.context).data
+
+    def get_user_likes(self, obj):
+        likes = Like.objects.filter(user=obj.user).order_by('-created_at')
+        return ProfileLikeSerializer(likes, many=True, context=self.context).data
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(ViewSet):
