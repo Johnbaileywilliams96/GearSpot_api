@@ -12,7 +12,17 @@ from GearSpotapi.models import User
 from GearSpotapi.models import Comment
 from GearSpotapi.models import PostTag
 from GearSpotapi.models import Like
+from GearSpotapi.models import Profile
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            "id",
+            "profile_image",
+            "bio"
+            )
+        depth = 1
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,6 +50,7 @@ class PostSerializer(serializers.ModelSerializer):
     post_tags = serializers.SerializerMethodField()
     post_likes = serializers.SerializerMethodField()
     is_Owner = serializers.SerializerMethodField()
+    post_profile = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -54,7 +65,8 @@ class PostSerializer(serializers.ModelSerializer):
             "post_comments", 
             "post_tags",
             "post_likes",
-            "is_Owner"
+            "is_Owner",
+            "post_profile"
         )
         depth = 1
     
@@ -76,7 +88,13 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.is_Owner(request)
         return False
 
-  
+    def get_post_profile(self, obj):
+        try:
+            profile = Profile.objects.get(user=obj.user)
+            return ProfileSerializer(profile).data
+        except Profile.DoesNotExist:
+            return None
+
 class PostView(ViewSet):
 
     permission_classes = [AllowAny]
