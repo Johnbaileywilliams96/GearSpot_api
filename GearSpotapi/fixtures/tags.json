@@ -1,0 +1,58 @@
+[
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 1,
+      "fields": {
+        "name": "guitar"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 2,
+      "fields": {
+        "name": "amplifier"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 3,
+      "fields": {
+        "name": "synthesizer"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 4,
+      "fields": {
+        "name": "microphone"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 5,
+      "fields": {
+        "name": "drums"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 6,
+      "fields": {
+        "name": "modular"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 7,
+      "fields": {
+        "name": "diy"
+      }
+    },
+    {
+      "model": "GearSpotapi.tag",
+      "pk": 8,
+      "fields": {
+        "name": "vintage"
+      }
+    }
+  ]
