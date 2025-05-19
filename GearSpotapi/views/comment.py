@@ -45,7 +45,7 @@ class CommentView(ViewSet):
 
     def create(self, request):
         try:
-            # Get the post if it's in the request data
+           
             if "post" not in request.data:
                 return Response(
                     {"message": "Post ID is required"},
@@ -56,8 +56,8 @@ class CommentView(ViewSet):
             
             new_comment = Comment()
             new_comment.content = request.data["content"]
-            new_comment.user = request.auth.user  # Set user (not content)
-            new_comment.post = post  # Set the post relationship
+            new_comment.user = request.auth.user  
+            new_comment.post = post  
             
             new_comment.save()
             

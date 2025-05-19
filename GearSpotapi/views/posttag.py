@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework.permissions import AllowAny
 from GearSpotapi.models import PostTag
-# from GearSpotapi.models import User
+
 
 class PostTagSerializer(serializers.ModelSerializer):
     class Meta:

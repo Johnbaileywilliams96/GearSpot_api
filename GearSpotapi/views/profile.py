@@ -79,12 +79,12 @@ class ProfileView(ViewSet):
 
     def create(self, request):
         new_profile = Profile()
-        # Set bio if provided, otherwise set empty string
+       
         new_profile.bio = request.data.get("bio", "")
         new_profile.user = request.auth.user
         new_profile.save()
 
-        # Handle profile image if provided
+      
         if "profile_image" in request.data and request.data["profile_image"] and ';base64,' in request.data["profile_image"]:
             try:
                 format, imgstr = request.data["profile_image"].split(";base64,")
@@ -94,9 +94,9 @@ class ProfileView(ViewSet):
                     name=f'profile_{new_profile.id}_{uuid.uuid4()}.{ext}', 
                 )
                 new_profile.profile_image = data
-                new_profile.save()  # Save again with the image
+                new_profile.save()  
             except Exception as e:
-                # Log the error but don't crash
+              
                 print(f"Error processing profile image: {e}")
 
         serialized = ProfileSerializer(new_profile, many=False)
@@ -122,14 +122,14 @@ class ProfileView(ViewSet):
     def update_current_user_profile(self, request):
         """Update the profile of the currently logged-in user"""
         try:
-            # Get the current user's profile
+          
             current_profile = Profile.objects.get(user=request.auth.user)
             
-            # Update the bio if provided
+        
             if "bio" in request.data:
                 current_profile.bio = request.data["bio"]
             
-            # Handle profile image update if provided
+       
             if "profile_image" in request.data and request.data["profile_image"] and ';base64,' in request.data["profile_image"]:
                 try:
                     format, imgstr = request.data["profile_image"].split(";base64,")
@@ -138,19 +138,19 @@ class ProfileView(ViewSet):
                         base64.b64decode(imgstr),
                         name=f'profile_{current_profile.id}_{uuid.uuid4()}.{ext}', 
                     )
-                    # Remove old image if exists
+            
                     if current_profile.profile_image:
                         current_profile.profile_image.delete(save=False)
                     
                     current_profile.profile_image = data
                 except Exception as e:
-                    # Log the error but don't crash
+                  
                     print(f"Error processing profile image: {e}")
             
-            # Save the updated profile
+     
             current_profile.save()
             
-            # Return the updated profile
+         
             serializer = ProfileSerializer(
                 current_profile, many=False, context={"request": request}
             )

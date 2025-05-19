@@ -46,16 +46,16 @@ class LikeView(ViewSet):
                     status=status.HTTP_404_NOT_FOUND
                 )
 
-            # Check if the user has already liked this post
+        
             like = Like.objects.filter(post=post, user=user).first()
 
             if like:
-                # User already liked the post, so unlike it
+        
                 like.delete()
                 message = "Unliked"
                 action_status = "unliked"
             else:
-                # User hasn't liked the post, so like it
+          
                 Like.objects.create(
                     post=post,
                     user=user
@@ -63,7 +63,7 @@ class LikeView(ViewSet):
                 message = "Liked successfully"
                 action_status = "liked"
             
-            # Get the updated like count to return to the client
+           
             updated_like_count = Like.objects.filter(post=post).count()
             
             return Response({

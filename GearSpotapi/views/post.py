@@ -116,13 +116,13 @@ class PostView(ViewSet):
         return Response(serializer.data)
     
     def create(self, request):
-        # Create the post
+     
         new_post = Post()
         new_post.title = request.data["title"]
         new_post.user = request.auth.user
         new_post.description = request.data["description"]
         
-        # Save the post first to get an ID
+        
         new_post.save()
         
         # Now handle the image after we have an ID
@@ -143,10 +143,10 @@ class PostView(ViewSet):
         # Handle tags
         try:
             if "tags" in request.data and request.data["tags"]:
-                # Ensure it's a list
+                
                 tag_ids = request.data["tags"]
                 if not isinstance(tag_ids, list):
-                    # Try to convert it if it's not a list
+                   
                     try:
                         tag_ids = list(tag_ids)
                     except:
@@ -158,7 +158,7 @@ class PostView(ViewSet):
                     post_tag.tag_id = tag_id
                     post_tag.save()
         except Exception as e:
-            # Log the error but don't crash
+         
             print(f"Error processing tags: {e}")
         
       
